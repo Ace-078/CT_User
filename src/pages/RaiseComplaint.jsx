@@ -22,8 +22,8 @@ const RaiseComplaint = () => {
         setError('')
 
         // Validation
-        if (!formData.title || !formData.description || !formData.category || !formData.location) {
-            setError('Please fill in all required fields')
+        if (!formData.title || !formData.description || !formData.category || !formData.location || !formData.imageUrl) {
+            setError('Please fill in all required fields, including a photo')
             return
         }
 
@@ -79,6 +79,35 @@ const RaiseComplaint = () => {
                                 {error}
                             </div>
                         )}
+
+                        {/* Image Upload */}
+                        <div className="flex flex-col gap-1.5">
+                            <label className="text-[#111418] dark:text-white text-base font-medium leading-normal pl-1">
+                                Attach Photo <span className="text-red-500">*</span>
+                            </label>
+                            <div className="relative">
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleImageUpload}
+                                    className="hidden"
+                                    id="image-upload"
+                                />
+                                <label
+                                    htmlFor="image-upload"
+                                    className="flex items-center justify-center gap-2 w-full h-32 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl hover:border-primary dark:hover:border-primary transition-colors cursor-pointer bg-gray-50 dark:bg-[#1a2632]"
+                                >
+                                    {formData.imageUrl ? (
+                                        <img src={formData.imageUrl} alt="Preview" className="h-full w-full object-cover rounded-xl" />
+                                    ) : (
+                                        <div className="flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400">
+                                            <span className="material-symbols-outlined text-4xl">add_photo_alternate</span>
+                                            <span className="text-sm">Click to upload photo</span>
+                                        </div>
+                                    )}
+                                </label>
+                            </div>
+                        </div>
 
                         {/* Title */}
                         <div className="flex flex-col gap-1.5">
@@ -181,8 +210,8 @@ const RaiseComplaint = () => {
                                         type="button"
                                         onClick={() => setFormData({ ...formData, severity: level })}
                                         className={`flex-1 py-2 px-4 rounded-lg border-2 transition-all capitalize ${formData.severity === level
-                                                ? 'border-primary bg-primary/10 text-primary font-semibold'
-                                                : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
+                                            ? 'border-primary bg-primary/10 text-primary font-semibold'
+                                            : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
                                             }`}
                                     >
                                         {level}
@@ -191,34 +220,7 @@ const RaiseComplaint = () => {
                             </div>
                         </div>
 
-                        {/* Image Upload */}
-                        <div className="flex flex-col gap-1.5">
-                            <label className="text-[#111418] dark:text-white text-base font-medium leading-normal pl-1">
-                                Attach Photo (Optional)
-                            </label>
-                            <div className="relative">
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleImageUpload}
-                                    className="hidden"
-                                    id="image-upload"
-                                />
-                                <label
-                                    htmlFor="image-upload"
-                                    className="flex items-center justify-center gap-2 w-full h-32 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-xl hover:border-primary dark:hover:border-primary transition-colors cursor-pointer bg-gray-50 dark:bg-[#1a2632]"
-                                >
-                                    {formData.imageUrl ? (
-                                        <img src={formData.imageUrl} alt="Preview" className="h-full w-full object-cover rounded-xl" />
-                                    ) : (
-                                        <div className="flex flex-col items-center gap-2 text-gray-500 dark:text-gray-400">
-                                            <span className="material-symbols-outlined text-4xl">add_photo_alternate</span>
-                                            <span className="text-sm">Click to upload photo</span>
-                                        </div>
-                                    )}
-                                </label>
-                            </div>
-                        </div>
+
                     </form>
                 </div>
 
