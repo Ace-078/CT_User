@@ -9,13 +9,13 @@ export const AuthProvider = ({ children }) => {
 
     // Check for existing session on mount
     useEffect(() => {
-        const storedUser = localStorage.getItem('cityconnect_user')
+        const storedUser = localStorage.getItem('civiltrack_user')
         if (storedUser) {
             try {
                 setUser(JSON.parse(storedUser))
             } catch (error) {
                 console.error('Error parsing stored user:', error)
-                localStorage.removeItem('cityconnect_user')
+                localStorage.removeItem('civiltrack_user')
             }
         }
         setLoading(false)
@@ -25,17 +25,18 @@ export const AuthProvider = ({ children }) => {
     const login = async (credentials) => {
         try {
             // Mock login - in production, this would call an API
-            const { emailOrPhone, password } = credentials
+            const { name, emailOrPhone, password } = credentials
 
             // Simple validation
-            if (!emailOrPhone || !password) {
-                throw new Error('Please provide both email/phone and password')
+            if (!name || !emailOrPhone || !password) {
+                throw new Error('Please provide name, email/phone, and password')
             }
 
-            // Mock user data
+            // Mock user data - use the actual name provided by the user
+            // In production, this would be fetched from the database
             const mockUser = {
                 id: 'user_' + Date.now(),
-                name: 'Rahul Kumar',
+                name: name,
                 email: emailOrPhone.includes('@') ? emailOrPhone : null,
                 phone: emailOrPhone.includes('@') ? '+91 9876543210' : emailOrPhone,
                 locality: 'Indiranagar, Sector 4',
@@ -45,7 +46,7 @@ export const AuthProvider = ({ children }) => {
             }
 
             // Store user in localStorage
-            localStorage.setItem('cityconnect_user', JSON.stringify(mockUser))
+            localStorage.setItem('civiltrack_user', JSON.stringify(mockUser))
             setUser(mockUser)
 
             return { success: true, user: mockUser }
@@ -77,7 +78,7 @@ export const AuthProvider = ({ children }) => {
             }
 
             // Store user in localStorage
-            localStorage.setItem('cityconnect_user', JSON.stringify(newUser))
+            localStorage.setItem('civiltrack_user', JSON.stringify(newUser))
             setUser(newUser)
 
             return { success: true, user: newUser }
@@ -88,7 +89,7 @@ export const AuthProvider = ({ children }) => {
 
     // Logout function
     const logout = () => {
-        localStorage.removeItem('cityconnect_user')
+        localStorage.removeItem('civiltrack_user')
         setUser(null)
     }
 

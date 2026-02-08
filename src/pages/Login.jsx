@@ -6,6 +6,7 @@ const Login = () => {
     const navigate = useNavigate()
     const { login, isAuthenticated } = useAuth()
     const [formData, setFormData] = useState({
+        name: '',
         emailOrPhone: '',
         password: ''
     })
@@ -64,7 +65,7 @@ const Login = () => {
                 {/* Welcome Text */}
                 <div className="px-6 pt-8 pb-2">
                     <h1 className="text-[#0d141b] dark:text-white tracking-tight text-[32px] font-bold leading-tight text-left">
-                        Welcome to CityConnect
+                        Welcome to Civil Track
                     </h1>
                     <p className="text-[#4c739a] dark:text-slate-400 text-base font-normal leading-normal mt-2">
                         Log in to report issues and improve your neighborhood.
@@ -79,6 +80,24 @@ const Login = () => {
                             {error}
                         </div>
                     )}
+
+                    {/* Name Input */}
+                    <label className="flex flex-col w-full">
+                        <p className="text-[#0d141b] dark:text-slate-200 text-sm font-semibold leading-normal pb-2">
+                            Your Name
+                        </p>
+                        <div className="relative">
+                            <input
+                                className="form-input flex w-full rounded-xl text-[#0d141b] dark:text-white focus:outline-none focus:ring-2 focus:ring-primary/50 border border-[#cfdbe7] dark:border-slate-700 bg-slate-50 dark:bg-slate-800 h-14 placeholder:text-[#4c739a] p-[15px] text-base font-normal"
+                                placeholder="e.g. John Doe"
+                                type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                    </label>
 
                     {/* Email/Phone Input */}
                     <label className="flex flex-col w-full">

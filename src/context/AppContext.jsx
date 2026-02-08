@@ -16,7 +16,7 @@ export const AppProvider = ({ children }) => {
         setComplaints(mockComplaints)
 
         // Load user interactions from localStorage
-        const storedInteractions = localStorage.getItem('cityconnect_interactions')
+        const storedInteractions = localStorage.getItem('civiltrack_interactions')
         if (storedInteractions) {
             try {
                 setUserInteractions(JSON.parse(storedInteractions))
@@ -29,7 +29,7 @@ export const AppProvider = ({ children }) => {
     // Save interactions to localStorage whenever they change
     useEffect(() => {
         if (Object.keys(userInteractions).length > 0) {
-            localStorage.setItem('cityconnect_interactions', JSON.stringify(userInteractions))
+            localStorage.setItem('civiltrack_interactions', JSON.stringify(userInteractions))
         }
     }, [userInteractions])
 
