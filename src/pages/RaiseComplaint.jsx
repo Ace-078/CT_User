@@ -12,7 +12,9 @@ const RaiseComplaint = () => {
         category: '',
         location: '',
         severity: 'normal',
-        imageUrl: null
+        imageUrl: null,
+        latitude: null,
+        longitude: null
     })
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
@@ -48,10 +50,39 @@ const RaiseComplaint = () => {
         const file = e.target.files[0]
         if (file) {
             // Mock image upload - in production, upload to server
-            setFormData({
-                ...formData,
-                imageUrl: URL.createObjectURL(file)
-            })
+            const imageUrl = URL.createObjectURL(file)
+
+            // Try to get geolocation (optional)
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        setFormData({
+                            ...formData,
+                            imageUrl: imageUrl,
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        })
+                    },
+                    (error) => {
+                        // Geolocation failed or denied, just set image without coords
+                        console.log('Geolocation error:', error.message)
+                        setFormData({
+                            ...formData,
+                            imageUrl: imageUrl,
+                            latitude: null,
+                            longitude: null
+                        })
+                    }
+                )
+            } else {
+                // Browser doesn't support geolocation
+                setFormData({
+                    ...formData,
+                    imageUrl: imageUrl,
+                    latitude: null,
+                    longitude: null
+                })
+            }
         }
     }
 
@@ -89,6 +120,7 @@ const RaiseComplaint = () => {
                                 <input
                                     type="file"
                                     accept="image/*"
+                                    capture="environment"
                                     onChange={handleImageUpload}
                                     className="hidden"
                                     id="image-upload"

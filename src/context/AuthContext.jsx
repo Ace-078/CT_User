@@ -58,23 +58,28 @@ export const AuthProvider = ({ children }) => {
     // Signup function - mock registration
     const signup = async (userData) => {
         try {
-            const { fullName, phone, locality } = userData
+            const { fullName, email, phone, locality, gender } = userData
 
             // Validation
-            if (!fullName || !phone || !locality) {
+            if (!fullName || !email || !phone || !locality || !gender) {
                 throw new Error('Please fill in all required fields')
             }
+
+            // Gender-based profile photos
+            const malePhoto = 'https://api.dicebear.com/7.x/avataaars/svg?seed=male&backgroundColor=b6e3f4'
+            const femalePhoto = 'https://api.dicebear.com/7.x/avataaars/svg?seed=female&backgroundColor=ffd5dc&hair=long'
 
             // Mock user creation
             const newUser = {
                 id: 'user_' + Date.now(),
                 name: fullName,
-                email: null,
+                email: email,
                 phone: phone,
                 locality: locality,
+                gender: gender,
                 ward: 'Ward 04 - Central District',
                 verified: false,
-                photo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBwEXGSeOijOmgJCWhteG0CUXd02A0nuYDOrbf_kVPNLQUZUhfHzMJU0BQlqBB8F3yaRviF1NEXaKX1PAxZv-9lPqG8SlPwTENd2SBYpRSaBfSkrOY3DGStibIp6hwg258hSCScFFDefkLCio_dRu_swTp16zZOFVSZROBM0JcufaurthuG-xsjU-3wdxdkgChBcFsHo_hOjYZbOv66lOvIwLpp3fx8-6dF4sbnY2xgk6l9eI6x70BJf9LAJfCuqvDAneYID4dElQ'
+                photo: gender === 'male' ? malePhoto : femalePhoto
             }
 
             // Store user in localStorage

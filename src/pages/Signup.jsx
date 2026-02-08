@@ -8,8 +8,10 @@ const Signup = () => {
     const { signup, isAuthenticated } = useAuth()
     const [formData, setFormData] = useState({
         fullName: '',
+        email: '',
         phone: '',
-        locality: ''
+        locality: '',
+        gender: ''
     })
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
@@ -23,6 +25,14 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError('')
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if (!emailRegex.test(formData.email)) {
+            setError('Please enter a valid email address (e.g., name@gmail.com)')
+            return
+        }
+
         setLoading(true)
 
         const result = await signup(formData)
@@ -95,6 +105,56 @@ const Signup = () => {
                                 onChange={handleChange}
                                 required
                             />
+                        </div>
+                    </div>
+
+                    {/* Email Input */}
+                    <div className="flex flex-col gap-1.5">
+                        <label className="text-[#111418] dark:text-white text-base font-medium leading-normal pl-1">
+                            Email Address
+                        </label>
+                        <div className="relative flex items-center">
+                            <span className="absolute left-4 text-[#617589] material-symbols-outlined">mail</span>
+                            <input
+                                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#111418] dark:text-white bg-white dark:bg-[#1a2632] border border-[#dbe0e6] dark:border-[#2a3642] focus:border-primary focus:ring-1 focus:ring-primary h-14 placeholder:text-[#9aa2ac] pl-12 pr-4 text-base font-normal leading-normal transition-all"
+                                placeholder="name@gmail.com"
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    {/* Gender Selection */}
+                    <div className="flex flex-col gap-1.5">
+                        <label className="text-[#111418] dark:text-white text-base font-medium leading-normal pl-1">
+                            Gender
+                        </label>
+                        <div className="grid grid-cols-2 gap-3">
+                            <button
+                                type="button"
+                                onClick={() => setFormData({ ...formData, gender: 'male' })}
+                                className={`flex items-center justify-center gap-2 h-14 rounded-xl border-2 transition-all ${formData.gender === 'male'
+                                        ? 'border-primary bg-primary/10 text-primary font-semibold'
+                                        : 'border-[#dbe0e6] dark:border-[#2a3642] text-[#617589] dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
+                                    }`}
+                            >
+                                <span className="material-symbols-outlined">male</span>
+                                Male
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setFormData({ ...formData, gender: 'female' })}
+                                className={`flex items-center justify-center gap-2 h-14 rounded-xl border-2 transition-all ${formData.gender === 'female'
+                                        ? 'border-primary bg-primary/10 text-primary font-semibold'
+                                        : 'border-[#dbe0e6] dark:border-[#2a3642] text-[#617589] dark:text-gray-400 hover:border-gray-300 dark:hover:border-gray-600'
+                                    }`}
+                            >
+                                <span className="material-symbols-outlined">female</span>
+                                Female
+                            </button>
                         </div>
                     </div>
 

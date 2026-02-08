@@ -23,6 +23,16 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError('')
+
+        // Email validation if user entered an email (contains @)
+        if (formData.emailOrPhone.includes('@')) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            if (!emailRegex.test(formData.emailOrPhone)) {
+                setError('Please enter a valid email address (e.g., name@gmail.com)')
+                return
+            }
+        }
+
         setLoading(true)
 
         const result = await login(formData)
